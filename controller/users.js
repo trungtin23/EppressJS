@@ -46,6 +46,7 @@ const updateUser =  (req,res) =>{
 
     if(age){user.age = age}
 
+    
     res.send(`user has id: ${id} has been updated`)
   
 

@@ -1,9 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-var userRoutes = require('./routes/users')
+var userRoutes = require('./routes/usersRoute')
+var postRoutes = require('./routes/postsRoute')
 const sequelize = require('./dbconfig/db');
-const User = require('./models/modelUsers');
+
 
 const app = express()
 const port = 5000
@@ -13,6 +14,8 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {res.send('Main Page');});
 
 app.use('/users',userRoutes)
+
+app.use('/posts',postRoutes)
 
 app.listen(port, async() => {
     try {

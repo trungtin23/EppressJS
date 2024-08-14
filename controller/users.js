@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const { param } = require('../routes/users');
+const { param } = require('../routes/usersRoute');
 const db = require ('../dbconfig/db')
 const User  = require('../models/modelUsers')
 const { successRespHelper, failRespHelper } = require('../helper/respHelper');

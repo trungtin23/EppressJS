@@ -2,13 +2,11 @@ const { v4: uuidv4 } = require('uuid');
 const { param } = require('../routes/usersRoute');
 const db = require ('../dbconfig/db')
 const User  = require('../models/modelUsers')
+const Post = require('../models/modelPost');
 const { successRespHelper, failRespHelper } = require('../helper/respHelper');
 
 
-let users = [];
-
-const getUser = async (req, res) => {
-    
+const getUser = async (req, res) => {       
     try {
         const users = await User.findAll()
 
@@ -48,7 +46,14 @@ const addUser = async (req, res) => {
 const findUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const userFounded = await User.findByPk(id);
+        const userFounded = await User.findByPk(id,{
+            include: [
+                {
+                    model: Post,
+                    as: 'posts' 
+                }
+            ]
+        });
         if (!userFounded) {
             return failRespHelper(res, 404, "Người dùng không tồn tại", null);
         }

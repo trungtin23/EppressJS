@@ -3,7 +3,19 @@ const User  = require('../models/modelUsers')
 const Post  = require('../models/modelPost')
 const { successRespHelper, failRespHelper } = require('../helper/respHelper');
 
+const getPost = async (req,res) => {
+    try {
+        const post = await Post.findAll()
 
+        if (post.length === 0) {
+            console.log( post.length)
+            return failRespHelper(res, 404, "không có post nào được đăng ký ", null);
+        }
+        successRespHelper(res, 200, `Lấy danh sách post thành công`, post);
+    } catch (error) {
+        return failRespHelper(res, 500, "Lỗi khi lấy ra danh sách post ", error.message);
+    }
+}
 const addPost = async (req, res) => {
     const { userId, title, content } = req.body;
 
@@ -21,6 +33,25 @@ const addPost = async (req, res) => {
         successRespHelper(res, 200, "Tạo post thành công", newPost);
     } catch (error) {
         failRespHelper(res, 500, "Đã xảy ra Lỗi khi tạo post", error.message);
+    }
+};
+const findPost = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const postFounded = await Post.findByPk(id,{
+            include: [
+                {
+                    model: User,
+                    as: 'user' 
+                }
+            ]
+        });
+        if (!postFounded) {
+            return failRespHelper(res, 404, "Post không tồn tại", null);
+        }
+        successRespHelper(res, 200, "Tìm thành công post", postFounded);
+    } catch (error) {
+        failRespHelper(res, 500, "Đã xảy ra lỗi khi tìm kiếm post", error.message);
     }
 };
 
@@ -61,5 +92,5 @@ const updatePost = async (req, res) => {
 };
 
 module.exports ={
-    addPost,deletePost,updatePost
+    addPost,deletePost,updatePost,getPost,findPost
 }

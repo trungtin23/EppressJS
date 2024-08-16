@@ -28,8 +28,8 @@ const Post = sequelize.define('Post', {
     timestamps: false
 });
 
-User.hasMany(Post, { foreignKey: 'userId' });
-Post.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Post, { as: 'posts', foreignKey: 'userId' });
+Post.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 
 sequelize.sync({ force: false })  
     .then(() => {

@@ -1,0 +1,60 @@
+[2024-08-19T06:57:02.085Z] 
+Request: 
+- Method: GET 
+- URL: /users/ 
+- Headers: {"content-type":"application/json","user-agent":"PostmanRuntime/7.41.1","accept":"*/*","postman-token":"42626b68-d0ad-478e-b265-fcd1948ee412","host":"localhost:5000","accept-encoding":"gzip, deflate, br","connection":"keep-alive","content-length":"112"} 
+- Body: {"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"} 
+
+Response: 
+- Status: 200 
+- Status Message: OK 
+- Body: {"message":"Lấy danh sách người dùng thành công","status":200,"result":1,"data":[{"id":"2c32bcb5-ec59-4f56-9c1c-83920841d7d9","firstName":"Tinqs222","lastName":"Daoq1","age":22},{"id":"95c586fa-5b1d-44f9-843c-ad7485b006ae","firstName":"Tinqs2","lastName":"Daoq1","age":22},{"id":"fdedd013-90f5-410a-af92-c34e434e8dbb","firstName":"Tin","lastName":"Dao","age":21}],"error":null} 
+- Time: 9ms
+
+-----------------------------------------------
+        
+[8/19/2024, 2:00:35 PM] 
+Request: 
+- Method: GET 
+- URL: /users/2c32bcb5-ec59-4f56-9c1c-83920841d7d9 
+- Headers: {"content-type":"application/json","user-agent":"PostmanRuntime/7.41.1","accept":"*/*","postman-token":"b8586ce8-6751-482f-a94d-7656fecc710b","host":"localhost:5000","accept-encoding":"gzip, deflate, br","connection":"keep-alive","content-length":"112"} 
+- Body: {"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"} 
+
+Response: 
+- Status: 200 
+- Status Message: OK 
+- Body: {"message":"Tìm thành công người dùng","status":200,"result":1,"data":{"id":"2c32bcb5-ec59-4f56-9c1c-83920841d7d9","firstName":"Tinqs222","lastName":"Daoq1","age":22,"posts":[]},"error":null} 
+- Time: 32ms
+
+-----------------------------------------------
+        
+[8/19/2024, 2:01:03 PM] 
+Request: 
+- Method: GET 
+- URL: /posts/ 
+- Headers: {"content-type":"application/json","user-agent":"PostmanRuntime/7.41.1","accept":"*/*","postman-token":"e07dbdd9-54bf-4be0-97e1-2b48a26cdb82","host":"localhost:5000","accept-encoding":"gzip, deflate, br","connection":"keep-alive","content-length":"112"} 
+- Body: {"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"} 
+
+Response: 
+- Status: 200 
+- Status Message: OK 
+- Body: {"message":"Lấy danh sách post thành công","status":200,"result":1,"data":[{"id":1,"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"},{"id":2,"title":"nodejs rat tuyet voi","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"}],"error":null} 
+- Time: 4ms
+
+-----------------------------------------------
+        
+[8/19/2024, 2:02:08 PM] 
+Request: 
+- Method: GET 
+- URL: /users/fdedd013-90f5-410a-af92-c34e434e8dbb 
+- Headers: {"content-type":"application/json","user-agent":"PostmanRuntime/7.41.1","accept":"*/*","postman-token":"90c3f73e-2a1a-4112-8c0f-8fec6f6fda30","host":"localhost:5000","accept-encoding":"gzip, deflate, br","connection":"keep-alive","content-length":"112"} 
+- Body: {"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"} 
+
+Response: 
+- Status: 200 
+- Status Message: OK 
+- Body: {"message":"Tìm thành công người dùng","status":200,"result":1,"data":{"id":"fdedd013-90f5-410a-af92-c34e434e8dbb","firstName":"Tin","lastName":"Dao","age":21,"posts":[{"id":1,"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"},{"id":2,"title":"nodejs rat tuyet voi","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"}]},"error":null} 
+- Time: 12ms
+
+-----------------------------------------------
+        

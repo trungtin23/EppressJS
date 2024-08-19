@@ -4,31 +4,20 @@ const path = require('path');
 const logFilePath = path.join(__dirname, '../log.txt');
 
 const logger = (req, res, next) => {
-    const startTime = Date.now();
-    const originalSend = res.send;
+    let originalSend = res.send;
+    let responseBody = null;
 
-    res.send = function(data) {
-        res.responseBody = data;  
-        originalSend.apply(res, arguments);  
+    res.send = function (body) {
+        responseBody = body;
+        return originalSend.apply(this, arguments);
     };
 
     res.on('finish', () => {
-        const log = `
-[${new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })}] 
-Request: 
-- Method: ${req.method} 
-- URL: ${req.originalUrl} 
-- Headers: ${JSON.stringify(req.headers)} 
-- Body: ${JSON.stringify(req.body)} 
-
-Response: 
-- Status: ${res.statusCode} 
-- Status Message: ${res.statusMessage} 
-- Body: ${res.responseBody} 
-- Time: ${Date.now() - startTime}ms
-
------------------------------------------------
-        `;
+        const log = `[${new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })}]` +
+                    `${req.method} http://localhost:5000${req.originalUrl}${JSON.stringify(req.body)}\n`+ 
+                    `[${new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })}]` +
+                    `${res.statusCode} ${responseBody}\n\n` 
+                    ;
 
         fs.appendFile(logFilePath, log, (err) => {
             if (err) {

@@ -1,4 +1,0 @@
-
-[8/19/2024, 2:35:18 PM]GET http://localhost:5000/users/fdedd013-90f5-410a-af92-c34e434e8dbb{"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"}
-[8/19/2024, 2:35:18 PM]200 {"message":"Tìm thành công người dùng","status":200,"result":1,"data":{"id":"fdedd013-90f5-410a-af92-c34e434e8dbb","firstName":"Tin","lastName":"Dao","age":21,"posts":[{"id":1,"title":"heheheheh","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"},{"id":2,"title":"nodejs rat tuyet voi","content":"nodejs rat hay","userId":"fdedd013-90f5-410a-af92-c34e434e8dbb"}]},"error":null}
-

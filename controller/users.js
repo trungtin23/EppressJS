@@ -1,10 +1,35 @@
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
 const { param } = require('../routes/usersRoute');
 const db = require ('../dbconfig/db')
+var jwt = require('jsonwebtoken')
 const User  = require('../models/modelUsers')
 const Post = require('../models/modelPost');
 const { successRespHelper, failRespHelper } = require('../helper/respHelper');
 
+const login = async (req, res) => {
+    const { userName, password } = req.body;
+
+    if (!userName || !password) {
+        return failRespHelper(res, 400, "Vui lòng cung cấp tên đăng nhập và mật khẩu.", null);
+    }
+    try {
+        const user = await User.findOne({ where: { userName } });
+
+        if (!user) {
+            return failRespHelper(res, 401, "Tên đăng nhập hoặc mật khẩu không đúng.", null);
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return failRespHelper(res, 401, "Tên đăng nhập hoặc mật khẩu không đúng.", null);
+        }
+        const token = jwt.sign({ _id: user._id }, 'tin123', { expiresIn: '1h' });
+        successRespHelper(res, 200, "Đăng nhập thành công", token);
+
+    } catch (error) {
+        return failRespHelper(res, 500, "Lỗi máy chủ", error.message);
+    }
+};
 
 const getUser = async (req, res) => {       
     try {
@@ -23,21 +48,26 @@ const getUser = async (req, res) => {
 
 
 const addUser = async (req, res) => {
-    const { firstName, lastName, age } = req.body;
+    const { userName, password, fullName, age } = req.body;
 
-
-    if (!firstName || !lastName) {
+    if (!userName || !password) {
         return failRespHelper(res, 400, "Vui lòng cung cấp đầy đủ thông tin người dùng.", null);
     }
 
     try {
+        const saltRounds = 10; 
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+
         const newUser = await User.create({
-            uuidv4,
-            firstName,
-            lastName,
+            uuid: uuidv4(), 
+            userName,
+            password: hashedPassword,
+            fullName,
             age
         });
-        successRespHelper(res, 201, `Người dùng ${newUser.firstName} đã được thêm thành công.`, newUser);
+
+        successRespHelper(res, 201, `Người dùng ${newUser.userName} đã được thêm thành công.`, newUser);
     } catch (error) {
         failRespHelper(res, 500, "Đã xảy ra lỗi khi thêm người dùng.", error.message);
     }
@@ -81,15 +111,16 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { firstName, lastName, age } = req.body;
+        const { UserName, password, fullName, age } = req.body;
         
         const user = await User.findByPk(id);
         if (!user) {
             return failRespHelper(res, 404, "Người dùng không tồn tại.", null);
         }
         await user.update({
-            firstName: firstName || user.firstName,
-            lastName: lastName || user.lastName,
+            UserName: UserName || user.UserName,
+            password: password || user.password,
+            fullName: fullName || user.fullName,
             age: age !== undefined ? age : user.age
         });
         successRespHelper(res, 200, `Người dùng có ID: ${id} đã được cập nhật.`, user);
@@ -101,4 +132,4 @@ const updateUser = async (req, res) => {
 
 
 
-module.exports = { getUser, addUser, findUser, deleteUser, updateUser };
+module.exports = { getUser, addUser, findUser, deleteUser, updateUser, login};

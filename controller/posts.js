@@ -16,13 +16,13 @@ const getPost = async (req,res) => {
         return failRespHelper(res, 500, "Lỗi khi lấy ra danh sách post ", error.message);
     }
 }
-const addPost = async (req, res) => {
-    const { userId, title, content } = req.body;
-
+const addPost = async (req, res) => {  
+    const { title, content } = req.body;
+    const userId =req.user._id;
     try {
         const user = await User.findByPk(userId);
         if (!user) {
-            return failRespHelper(res, 404, `người dùng với id: ${userId} không tồn tại`, null);
+            return failRespHelper(res, 404, `Người dùng với id: ${userId} không tồn tại`, null);
         }
 
         const newPost = await Post.create({      
@@ -32,7 +32,7 @@ const addPost = async (req, res) => {
         });
         successRespHelper(res, 200, "Tạo post thành công", newPost);
     } catch (error) {
-        failRespHelper(res, 500, "Đã xảy ra Lỗi khi tạo post", error.message);
+        failRespHelper(res, 500, "Đã xảy ra lỗi khi tạo post", error.message);
     }
 };
 const findPost = async (req, res) => {

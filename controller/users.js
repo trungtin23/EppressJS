@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { param } = require('../routes/usersRoute');
 const db = require ('../dbconfig/db')
 var jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser');
 const User  = require('../models/modelUsers')
 const Post = require('../models/modelPost');
 const { successRespHelper, failRespHelper } = require('../helper/respHelper');
@@ -23,7 +24,10 @@ const login = async (req, res) => {
         if (!isMatch) {
             return failRespHelper(res, 401, "Tên đăng nhập hoặc mật khẩu không đúng.", null);
         }
-        const token = jwt.sign({ _id: user._id }, 'tin123', { expiresIn: '1h' });
+        const token = jwt.sign({ _id: user.id }, 'tin123' );
+
+        res.cookie('Token', token, { httpOnly: true, maxAge: 3600000 });
+
         successRespHelper(res, 200, "Đăng nhập thành công", token);
 
     } catch (error) {
@@ -132,4 +136,4 @@ const updateUser = async (req, res) => {
 
 
 
-module.exports = { getUser, addUser, findUser, deleteUser, updateUser, login};
+module.exports = { getUser, addUser, findUser, deleteUser, updateUser, login, getUserFromToken};

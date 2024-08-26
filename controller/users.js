@@ -136,4 +136,4 @@ const updateUser = async (req, res) => {
 
 
 
-module.exports = { getUser, addUser, findUser, deleteUser, updateUser, login, getUserFromToken};
+module.exports = { getUser, addUser, findUser, deleteUser, updateUser, login};
